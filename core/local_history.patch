@@ -1,0 +1,307 @@
+Index: src/main/scala/us/evosys/hadoop/jobs/GenomeIngestor.scala
+===================================================================
+--- src/main/scala/us/evosys/hadoop/jobs/GenomeIngestor.scala	(revision )
++++ src/main/scala/us/evosys/hadoop/jobs/GenomeIngestor.scala	(revision )
+@@ -22,8 +22,14 @@
+  * Time: 8:40 AM
+  * To change this template use File | Settings | File Templates.
+  */
++trait GImplicits {
++  implicit def fromNTerm(term:NTerm):NTermWritable = {
++    val tw = new NTermWritable(term.value)
++    tw.termList = term::tw.termList
++    tw
++  }
++}
+ 
+-
+ object GenomeIngestor extends Configured with Tool with HImplicits {
+   val logger: Logger = LoggerFactory.getLogger(getClass)
+ 
+@@ -43,7 +49,7 @@
+     job.setMapOutputKeyClass(classOf[Text])
+     job.setMapOutputValueClass(classOf[NTerm])
+ 
+-    //job.setCombinerClass(classOf[GenomeIngestionReducer])
++    job.setCombinerClass(classOf[GenomeIngestionCombiner])
+ 
+     job.setReducerClass(classOf[GenomeIngestionReducer])
+ 
+@@ -78,7 +84,7 @@
+   val WINDOW_SIZE = "window.size"
+ }
+ 
+-protected[jobs] class GenomeIngestionMapper extends Mapper[LongWritable, Text, Text, NTerm] with HImplicits {
++protected[jobs] class GenomeIngestionMapper extends Mapper[LongWritable, Text, Text, NTermWritable] with HImplicits with GImplicits {
+   val logger: Logger = LoggerFactory.getLogger(getClass)
+ 
+   var started: Boolean = false
+@@ -86,7 +92,7 @@
+   var winSize: Int = _
+   var window: Window = _
+ 
+-  protected override def map(lnNumber: LongWritable, line: Text, context: Mapper[LongWritable, Text, Text, NTerm]#Context): Unit = {
++  protected override def map(lnNumber: LongWritable, line: Text, context: Mapper[LongWritable, Text, Text, NTermWritable]#Context): Unit = {
+     //System.err.println("file is " + context.getConfiguration.get("map.input.file"))
+     val flName = context.getInputSplit match {
+       case fs: FileSplit => fs.getPath.getName
+@@ -141,13 +147,26 @@
+   }
+ }
+ 
+-protected[jobs] class GenomeIngestionReducer extends Reducer[Text, NTerm, Text, NLink] with HImplicits {
++protected[jobs] class GenomeIngestionCombiner extends Reducer[Text, NTermWritable, Text, NTermWritable] with HImplicits {
+   val logger: Logger = LoggerFactory.getLogger(getClass)
+-  var termLinkMap: Map[String, NLink] = Map()
+ 
+-  protected override def reduce(key: Text, value: java.lang.Iterable[NTerm], context: Reducer[Text, NTerm, Text, NLink]#Context): Unit = {
++  protected override def reduce(key: Text, value: java.lang.Iterable[NTermWritable], context: Reducer[Text, NTermWritable, Text, NTermWritable]#Context): Unit = {
+     logger.debug("reducing {}", key)
+ 
++    val nTerm = new NTermWritable(key)
++
++    value.foldLeft(nTerm)((res, curr) => res.add(curr))
++
++    context.write(key, nTerm)
++  }
++}
++
++protected[jobs] class GenomeIngestionReducer extends Reducer[Text, NTermWritable, Text, NLink] with HImplicits {
++  val logger: Logger = LoggerFactory.getLogger(getClass)
++
++  protected override def reduce(key: Text, value: java.lang.Iterable[NTermWritable], context: Reducer[Text, NTermWritable, Text, NLink]#Context): Unit = {
++    logger.debug("reducing {}", key)
++
+     val nlink = NLink(key)
+ 
+     value.foldLeft(nlink)((res, curr) => res.add(curr))
+@@ -204,15 +223,18 @@
+ 
+   def getLocations: Map[String, List[Long]] = locations
+ 
+-  def add(term: NTerm): NLink = {
++  /* go through the termList and add all */
++  def add(term: NTermWritable): NLink = {
++    term.termList.foreach(term => {
+-    term.value.equalsIgnoreCase(name) match {
+-      case true =>
+-        val l = term.offset :: locations.getOrElse(term.flName, List[Long]())
++      term.value.equalsIgnoreCase(name) match {
++        case true =>
++          val l = term.offset :: locations.getOrElse(term.flName, List[Long]())
+ 
+-        locations = locations + (term.flName -> l)
+-        freq += term.freq
+-      case _ => throw new IllegalArgumentException("Expected term " + name + " found " + term.value)
+-    }
++          locations = locations + (term.flName -> l)
++          freq += term.freq
++        case _ => throw new IllegalArgumentException("Expected term " + name + " found " + term.value)
++      }
++    })
+     this
+   }
+ 
+@@ -245,7 +267,7 @@
+   val re: Regex = "(?i)A|T|G|C".r
+   val charSeq: Array[Char] = new Array(1)
+ 
+-  def slide(c:Char): Option[NTerm] = {
++  def slide(c: Char): Option[NTerm] = {
+     charSeq(0) = c
+     if (re.findFirstIn(charSeq).getOrElse("") != "") {
+       offset += 1
+@@ -262,7 +284,47 @@
+   }
+ }
+ 
+-class NTerm(var value: String, var freq: Long, var flName: String, var offset: Long) extends Ordered[NTerm] with Writable {
++class NTermWritable(var name: String) extends Writable {
++  def this() = this ("")
++
++  var termList: List[NTerm] = List()
++
++  def add(term: NTermWritable): NTermWritable = {
++    this.name.equalsIgnoreCase(term.name) match {
++      case true => termList = termList ::: term.termList
++      case false => throw new IllegalArgumentException("Expected term " + this.name + " found " + term.name)
++    }
++    this
++  }
++
++  override def write(out: DataOutput) {
++    WritableUtils.writeString(out, name)
++    WritableUtils.writeVInt(out, termList.size)
++    termList.foreach(t => t.write(out))
++  }
++
++  override def readFields(in: DataInput) {
++    name = WritableUtils.readString(in)
++    for (i <- 0 until WritableUtils.readVInt(in)) termList = NTerm.fromString(WritableUtils.readString(in))::termList
++  }
++
++  override def toString: String = termList.mkString
++}
++
++object NTerm {
++  def fromString(str: String): NTerm = populate(new NTerm(), str)
++
++  def populate(nterm: NTerm, str: String): NTerm = {
++    str split (":") match {
++      case a: Array[String] if a.length == 4 =>
++        nterm.value = a(0).trim; nterm.freq = a(1).trim.toInt; nterm.flName = a(2).trim; nterm.offset = a(3).trim.toInt
++      case _ => throw new IllegalStateException("parse error:" + str)
++    }
++    nterm
++  }
++}
++
++class NTerm(var value: String, var freq: Long, var flName: String, var offset: Long) extends Ordered[NTerm] {
+   def this() = this (null, 1, "", 0)
+ 
+   def this(value: String, flName: String, offset: Long) = this (value, 1, flName, offset)
+@@ -288,13 +350,8 @@
+ 
+   def readFields(in: DataInput) {
+     val line = WritableUtils.readString(in)
+-    //System.err.println("NTerm readIn: " + line)
+-    line split (":") match {
+-      case a: Array[String] if a.length == 4 =>
+-        value = a(0).trim; freq = a(1).trim.toInt; flName = a(2).trim; offset = a(3).trim.toInt
+-      case _ => throw new IllegalStateException("parse error:" + line)
++    NTerm.populate(this, line)
+-    }
++  }
+-  }
+ 
+   private def equality = value.toUpperCase + flName + offset
+ }
+Index: src/test/scala/us/evosys/hadoop/jobs/TermWindowLinkTest.scala
+===================================================================
+--- src/test/scala/us/evosys/hadoop/jobs/TermWindowLinkTest.scala	(revision )
++++ src/test/scala/us/evosys/hadoop/jobs/TermWindowLinkTest.scala	(revision )
+@@ -11,7 +11,7 @@
+  * To change this template use File | Settings | File Templates.
+  */
+ 
+-class TermWindowLinkTest {
++class TermWindowLinkTest extends GImplicits {
+   @Test
+   def window3 {
+     val winSize = 3
+@@ -64,6 +64,28 @@
+   }
+ 
+   @Test
++  def combinedNTerm {
++    val nterm1 = new NTerm("AAA", 2021, "ch1", 2012)
++
++    val nterm2 = new NTerm("AAA", 3021)
++    val nterm3 = new NTerm("aaa", 2031, "ch3", 2012)
++    val nterm4 = new NTerm("AAT", 2021, "ch1", 2012)
++
++    val combNTerm = new NTermWritable("AAA")
++    combNTerm.add(nterm1).add(nterm2).add(nterm3)
++
++    try {
++      combNTerm.add(nterm4)
++      Assert.fail("Exception should be thrown")
++    }
++    catch {
++      case ex: IllegalArgumentException =>
++    }
++
++    Assert.assertEquals(3, combNTerm.termList.size)
++  }
++
++  @Test
+   def nlink {
+     val nlink = new NLink("aAa")
+ 
+@@ -97,6 +119,7 @@
+     Assert.assertTrue(nlink.getLocations.get("ch3").get.contains(2012))
+   }
+ 
++
+   @Test
+   def nlinkMkString {
+     val nlink = new NLink("aAa")
+Index: src/test/scala/us/evosys/hadoop/jobs/GenomeIngestionMRTest.scala
+===================================================================
+--- src/test/scala/us/evosys/hadoop/jobs/GenomeIngestionMRTest.scala	(revision )
++++ src/test/scala/us/evosys/hadoop/jobs/GenomeIngestionMRTest.scala	(revision )
+@@ -16,19 +16,33 @@
+  * To change this template use File | Settings | File Templates.
+  */
+ 
+-class GenomeIngestionMRTest extends HImplicits {
++class GenomeIngestionMRTest extends HImplicits with GImplicits {
+   val logger: Logger = LoggerFactory.getLogger(classOf[GenomeIngestionMapper])
+ 
+   @Test
+   def map {
+-    val mapper: Mapper[LongWritable, Text, Text, NTerm] = new GenomeIngestionMapper
++    val mapper: Mapper[LongWritable, Text, Text, NTermWritable] = new GenomeIngestionMapper
+ 
+-    val mapDriver = new MapDriver[LongWritable, Text, Text, NTerm]
++    val mapDriver = new MapDriver[LongWritable, Text, Text, NTermWritable]
+     mapDriver.getConfiguration.set(GenomeIngestionMapper.WINDOW_SIZE,3+"")
+     mapDriver.setMapper(mapper)
+ 
+     val flName = "somefile"
+     mapDriver.withInput(1, "AAbATnG\nCCA")
++
++//    val tw = new NTermWritable("AAA").
++//         add(new NTerm("AAA", 1,flName,0)).
++//         add(new NTerm("AAT",1, flName, 1)).
++//         add(new NTerm("ATG",1, flName,2)).
++//         add(new NTerm("TGC",1, flName,3)).
++//         add(new NTerm("GCC",1, flName,4)).
++//         add(new NTerm("CCA",1, flName,5))
++
++//    val twAAA = new NTermWritable("AAA").add(new NTerm("AAA", 1,flName,0))
++//
++//
++//    mapDriver.withOutput("AAA", twAAA)
++//
+     mapDriver.withOutput("AAA", new NTerm("AAA", 1,flName,0)).
+       withOutput("AAT", new NTerm("AAT",1, flName, 1)).
+       withOutput("ATG", new NTerm("ATG",1, flName,2)).
+@@ -36,17 +50,19 @@
+       withOutput("GCC", new NTerm("GCC",1, flName,4)).
+       withOutput("CCA", new NTerm("CCA",1, flName,5))
+ 
+-    mapDriver.runTest()
++    logger.info("map result: " + mapDriver.run())
+   }
+ 
+   @Test
+   def reduce {
+-    val reducer: Reducer[Text, NTerm, Text, NLink] = new GenomeIngestionReducer
++    val reducer: Reducer[Text, NTermWritable, Text, NLink] = new GenomeIngestionReducer
+ 
+-    val reduceDriver = new ReduceDriver[Text, NTerm, Text, NLink]
++    val reduceDriver = new ReduceDriver[Text, NTermWritable, Text, NLink]
+     reduceDriver.setReducer(reducer)
+ 
+-    reduceDriver.withInput("aaa", List(new NTerm("aaa", 1, "ch1", 0), new NTerm("aaa", 1, "ch1", 2044), new NTerm("aaa", 1, "ch2", 3044)))
++    reduceDriver.withInput("aaa", List[NTermWritable](new NTerm("aaa", 1, "ch1", 0),
++      new NTerm("aaa", 1, "ch1", 2044),
++      new NTerm("aaa", 1, "ch2", 3044)))
+ 
+     val s = "AAA:3:[ch1->0,2044;ch2->3044"
+ 
+@@ -58,10 +74,10 @@
+ 
+   @Test
+   def mapReduce {
+-    val mapper: Mapper[LongWritable, Text, Text, NTerm] = new GenomeIngestionMapper
+-     val reducer: Reducer[Text, NTerm, Text, NLink] = new GenomeIngestionReducer
++    val mapper: Mapper[LongWritable, Text, Text, NTermWritable] = new GenomeIngestionMapper
++     val reducer: Reducer[Text, NTermWritable, Text, NLink] = new GenomeIngestionReducer
+ 
+-    val mrDriver = new MapReduceDriver[LongWritable, Text, Text,  NTerm, Text, NLink]
++    val mrDriver = new MapReduceDriver[LongWritable, Text, Text,  NTermWritable, Text, NLink]
+     mrDriver.getConfiguration.set(GenomeIngestionMapper.WINDOW_SIZE,3+"")
+ 
+     mrDriver.setMapper(mapper)
