@@ -64,4 +64,11 @@ class SampleTest {
 
     System.out.println("filtered: " + filtered)
   }
+
+  //@Test
+  def forTest {
+    val list:List[Int] = List(1)
+
+    for (i <- 1 to list.size) System.out.println(list(i))
+  }
 }

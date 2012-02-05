@@ -11,7 +11,7 @@ import org.junit.{Assert, Test}
  * To change this template use File | Settings | File Templates.
  */
 
-class TermWindowLinkTest {
+class TermWindowLinkTest extends GImplicits {
   @Test
   def window3 {
     val winSize = 3
@@ -64,6 +64,28 @@ class TermWindowLinkTest {
   }
 
   @Test
+  def combinedNTerm {
+    val nterm1 = new NTerm("AAA", 2021, "ch1", 2012)
+
+    val nterm2 = new NTerm("AAA", 3021)
+    val nterm3 = new NTerm("aaa", 2031, "ch3", 2012)
+    val nterm4 = new NTerm("AAT", 2021, "ch1", 2012)
+
+    val combNTerm = new NTermWritable("AAA")
+    combNTerm.add(nterm1).add(nterm2).add(nterm3)
+
+    try {
+      combNTerm.add(nterm4)
+      Assert.fail("Exception should be thrown")
+    }
+    catch {
+      case ex: IllegalArgumentException =>
+    }
+
+    Assert.assertEquals(3, combNTerm.termList.size)
+  }
+
+  //@Test
   def nlink {
     val nlink = new NLink("aAa")
 
@@ -96,6 +118,7 @@ class TermWindowLinkTest {
     Assert.assertTrue(nlink.getLocations.get("ch1").get.contains(3020))
     Assert.assertTrue(nlink.getLocations.get("ch3").get.contains(2012))
   }
+
 
   @Test
   def nlinkMkString {

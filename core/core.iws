@@ -58,7 +58,35 @@
     <favorites_list name="core" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="GenomeIngestionMRTest.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/GenomeIngestionMRTest.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="114" column="6" selection-start="3891" selection-end="3891" vertical-scroll-proportion="-8.2">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GenomeIngestor.scala" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/us/evosys/hadoop/jobs/GenomeIngestor.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="418" column="45" selection-start="12604" selection-end="12604" vertical-scroll-proportion="8.255043">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MockOutputCollector.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mrunit/mrunit/0.5.0-incubating/mrunit-0.5.0-incubating.jar!/org/apache/hadoop/mrunit/mock/MockOutputCollector.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="29" selection-start="746" selection-end="746" vertical-scroll-proportion="-8.84">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -68,7 +96,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/us/evosys/hadoop/jobs/SortValidator.java" />
         <option value="$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/WindowTest.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/GenomeIngestionMapperTest.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/SampleTest.scala" />
@@ -76,14 +103,15 @@
         <option value="$PROJECT_DIR$/src/main/scala/us/evosys/hadoop/jobs/WordCountDebug.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/us/evosys/hadoop/jobs/sample/WordCountDebug.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/sample/WordCountMapperTest.scala" />
-        <option value="$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/sample/SampleTest.scala" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/TermWindowLinkTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/us/evosys/hadoop/jobs/GenomeIngestor.scala" />
-        <option value="$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/GenomeIngestionMRTest.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/GenomeIngestionMRTest.scala.bak" />
         <option value="$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/TermWindowLinkTest.scala.bak" />
         <option value="$PROJECT_DIR$/src/main/scala/us/evosys/hadoop/jobs/GenomeIngestor.scala.bak" />
+        <option value="$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/GenomeIngestionMRTest.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/NodeTest.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/TermWindowLinkTest.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/sample/SampleTest.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/us/evosys/hadoop/jobs/GenomeIngestor.scala" />
       </list>
     </option>
   </component>
@@ -156,7 +184,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -185,6 +212,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="target" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -198,6 +239,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="jobs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jobs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sample" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -243,6 +314,36 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="jobs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jobs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GenomeIngestor.scala" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -291,23 +392,24 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="Favorites" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="recentsLimit" value="5" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="last_opened_file_path" value="D:/downloads/bio/mellifera/LG1" />
+    <property name="recentsLimit" value="5" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../mediamala/route791/core/src/main/scala/com/route791/router/service" />
     <property name="MemberChooser.showClasses" value="true" />
-    <property name="GoToClass.includeLibraries" value="false" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="dynamic.classpath" value="false" />
+    <property name="GoToClass.includeLibraries" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -318,58 +420,14 @@
       <recent name="us.evosys.hadoop.jobs" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TermWindowLinkTest">
-    <configuration default="false" name="TermWindowLinkTest.nterm" type="JUnit" factoryName="JUnit" temporary="true">
-      <module name="core" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="us.evosys.hadoop.jobs" />
-      <option name="MAIN_CLASS_NAME" value="us.evosys.hadoop.jobs.TermWindowLinkTest" />
-      <option name="METHOD_NAME" value="nterm" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="SampleTest.pattern" type="JUnit" factoryName="JUnit" temporary="true">
-      <module name="core" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="us.evosys.hadoop.jobs.sample" />
-      <option name="MAIN_CLASS_NAME" value="us.evosys.hadoop.jobs.sample.SampleTest" />
-      <option name="METHOD_NAME" value="pattern" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="GenomeIngestionMRTest.map" type="JUnit" factoryName="JUnit" temporary="true">
+  <component name="RunManager" selected="JUnit.GenomeIngestionMRTest.reduce2">
+    <configuration default="false" name="GenomeIngestionMRTest.reduce2" type="JUnit" factoryName="JUnit" temporary="true">
       <module name="core" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="us.evosys.hadoop.jobs" />
       <option name="MAIN_CLASS_NAME" value="us.evosys.hadoop.jobs.GenomeIngestionMRTest" />
-      <option name="METHOD_NAME" value="map" />
+      <option name="METHOD_NAME" value="reduce2" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" />
       <option name="PARAMETERS" />
@@ -381,16 +439,22 @@
       </option>
       <envs />
       <patterns />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="3328" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="GenomeIngestionMRTest" type="JUnit" factoryName="JUnit" temporary="true">
+    <configuration default="false" name="NodeTest" type="JUnit" factoryName="JUnit" temporary="true">
       <module name="core" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="us.evosys.hadoop.jobs" />
-      <option name="MAIN_CLASS_NAME" value="us.evosys.hadoop.jobs.GenomeIngestionMRTest" />
+      <option name="MAIN_CLASS_NAME" value="us.evosys.hadoop.jobs.NodeTest" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
@@ -407,12 +471,66 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="TermWindowLinkTest" type="JUnit" factoryName="JUnit" temporary="true">
+    <configuration default="false" name="NodeTest.singleChromosome" type="JUnit" factoryName="JUnit" temporary="true">
       <module name="core" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="us.evosys.hadoop.jobs" />
-      <option name="MAIN_CLASS_NAME" value="us.evosys.hadoop.jobs.TermWindowLinkTest" />
+      <option name="MAIN_CLASS_NAME" value="us.evosys.hadoop.jobs.NodeTest" />
+      <option name="METHOD_NAME" value="singleChromosome" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="3451" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <ConfigurationWrapper RunnerId="Debug" />
+      <method />
+    </configuration>
+    <configuration default="false" name="GenomeIngestionMRTest.mapReduce2" type="JUnit" factoryName="JUnit" temporary="true">
+      <module name="core" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="us.evosys.hadoop.jobs" />
+      <option name="MAIN_CLASS_NAME" value="us.evosys.hadoop.jobs.GenomeIngestionMRTest" />
+      <option name="METHOD_NAME" value="mapReduce2" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="2663" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="GenomeIngestionMRTest" type="JUnit" factoryName="JUnit" temporary="true">
+      <module name="core" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="us.evosys.hadoop.jobs" />
+      <option name="MAIN_CLASS_NAME" value="us.evosys.hadoop.jobs.GenomeIngestionMRTest" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
@@ -475,6 +593,17 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method>
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
     <configuration default="true" type="Specs2RunConfiguration" factoryName="Specs2">
       <module name="" />
       <setting name="path" value="" />
@@ -485,17 +614,6 @@
       <method>
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-      <method>
-        <option name="BuildArtifacts" enabled="false" />
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
@@ -587,11 +705,11 @@
       </method>
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="JUnit.TermWindowLinkTest.nterm" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.SampleTest.pattern" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.GenomeIngestionMRTest.map" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.GenomeIngestionMRTest" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.TermWindowLinkTest" />
+      <item index="0" class="java.lang.String" itemvalue="JUnit.GenomeIngestionMRTest.reduce2" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.NodeTest" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.NodeTest.singleChromosome" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.GenomeIngestionMRTest.mapReduce2" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.GenomeIngestionMRTest" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -617,24 +735,24 @@
     <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
   </component>
   <component name="ToolWindowManager">
-    <frame x="233" y="12" width="1320" height="1119" extended-state="0" />
+    <frame x="-4" y="-4" width="1928" height="1180" extended-state="6" />
     <editor active="false" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31015038" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298872" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30052355" sideWeight="0.29685536" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.07329843" sideWeight="0.68301886" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16223978" sideWeight="0.5837696" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20948617" sideWeight="0.9910414" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24355301" sideWeight="0.9932931" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31878307" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16390817" sideWeight="0.7011278" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29887217" sideWeight="0.9932931" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37124062" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31322208" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -683,96 +801,99 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/hadoop/hadoop-core/0.20.2/hadoop-core-0.20.2.jar!/org/apache/hadoop/io/WritableUtils.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="19" selection-start="164" selection-end="164" vertical-scroll-proportion="-0.39752406" />
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/hadoop/hadoop-core/0.20.2/hadoop-core-0.20.2.jar!/org/apache/hadoop/mapreduce/TaskInputOutputContext.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="16" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.39752406" />
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/hadoop/hadoop-core/0.20.2/hadoop-core-0.20.2.jar!/org/apache/hadoop/io/Writable.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="17" selection-start="162" selection-end="162" vertical-scroll-proportion="0.13465346" />
-      </provider>
-    </entry>
-    <entry file="file://D:/downloads/bio/mellifera/LG1/cp1.fa">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="145" selection-end="145" vertical-scroll-proportion="0.032882012" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="71" selection-start="1276" selection-end="1276" vertical-scroll-proportion="1.16875" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/sample/WordCountMapperTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="37" selection-start="477" selection-end="477" vertical-scroll-proportion="0.33094263" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/us/evosys/hadoop/jobs/SortValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="291" column="50" selection-start="10584" selection-end="10584" vertical-scroll-proportion="0.5835962" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/us/evosys/hadoop/jobs/sample/WordCountDebug.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="23" selection-start="2652" selection-end="2675" vertical-scroll-proportion="0.7590862" />
+        <state line="75" column="72" selection-start="2262" selection-end="2262" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/sample/SampleTest.scala">
+    <entry file="jar://C:/Program Files/Java/jdk1.6.0_16/src.zip!/java/io/DataOutput.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="64" selection-start="1414" selection-end="1414" vertical-scroll-proportion="0.5825545" />
+        <state line="114" column="10" selection-start="4188" selection-end="4188" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/hadoop/hadoop-core/1.0.0/hadoop-core-1.0.0.jar!/org/apache/hadoop/io/WritableUtils.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="23" selection-start="936" selection-end="936" vertical-scroll-proportion="-5.4" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.7/junit-4.7-sources.jar!/org/junit/runners/BlockJUnit4ClassRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="0" selection-start="2778" selection-end="2778" vertical-scroll-proportion="0.33174226" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/hadoop/hadoop-core/1.0.0/hadoop-core-1.0.0.jar!/org/apache/hadoop/mapreduce/ReduceContext.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="18" selection-start="2798" selection-end="2798" vertical-scroll-proportion="-5.72">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mrunit/mrunit/0.5.0-incubating/mrunit-0.5.0-incubating.jar!/org/apache/hadoop/mrunit/mapreduce/mock/MockReduceContextWrapper.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="20" selection-start="2048" selection-end="2048" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/hadoop/hadoop-core/1.0.0/hadoop-core-1.0.0.jar!/org/apache/hadoop/io/serializer/WritableSerialization.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="20" selection-start="1176" selection-end="1176" vertical-scroll-proportion="-5.4">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.9.1/scala-library-2.9.1.jar!/scala/collection/Iterator.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="97" column="0" selection-start="8811" selection-end="8811" vertical-scroll-proportion="0.8752026">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.7/junit-4.7-sources.jar!/org/junit/internal/runners/model/ReflectiveCallable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="0" selection-start="405" selection-end="405" vertical-scroll-proportion="0.3783032">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/TermWindowLinkTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="49" selection-start="1290" selection-end="1290" vertical-scroll-proportion="0.017418033">
+        <state line="136" column="52" selection-start="3600" selection-end="3600" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/us/evosys/hadoop/jobs/HImplicits.scala">
+    <entry file="file://$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/NodeTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="56" selection-start="675" selection-end="675" vertical-scroll-proportion="0.43545082">
+        <state line="113" column="80" selection-start="2600" selection-end="2600" vertical-scroll-proportion="1.8524591">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/GenomeIngestionMRTest.scala.bak">
+    <entry file="file://$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/sample/SampleTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="76" selection-start="968" selection-end="968" vertical-scroll-proportion="0.16614746">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/TermWindowLinkTest.scala.bak">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="120" column="1" selection-start="3211" selection-end="3211" vertical-scroll-proportion="0.96516395">
+        <state line="30" column="111" selection-start="720" selection-end="720" vertical-scroll-proportion="0.19672132">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/us/evosys/hadoop/jobs/GenomeIngestionMRTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="20" selection-start="1840" selection-end="1840" vertical-scroll-proportion="0.9231557">
+        <state line="114" column="6" selection-start="3891" selection-end="3891" vertical-scroll-proportion="-8.2">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mrunit/mrunit/0.5.0-incubating/mrunit-0.5.0-incubating.jar!/org/apache/hadoop/mrunit/mock/MockOutputCollector.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="29" selection-start="746" selection-end="746" vertical-scroll-proportion="-8.84">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/us/evosys/hadoop/jobs/GenomeIngestor.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="288" column="38" selection-start="8359" selection-end="8359" vertical-scroll-proportion="0.05088266">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/us/evosys/hadoop/jobs/GenomeIngestor.scala.bak">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="6" selection-start="1412" selection-end="1412" vertical-scroll-proportion="-3.071651">
+        <state line="418" column="45" selection-start="12604" selection-end="12604" vertical-scroll-proportion="8.255043">
           <folding />
         </state>
       </provider>
