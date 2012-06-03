@@ -1,0 +1,245 @@
+package us.evosys.hadoop.jobs
+
+import org.slf4j.{Logger, LoggerFactory}
+import org.junit.{Assert, Test}
+import org.apache.hadoop.mapreduce.{Reducer, Mapper}
+import org.apache.hadoop.io.{LongWritable, Text}
+import scala.collection.JavaConversions._
+import org.apache.hadoop.mrunit.mapreduce.{MapReduceDriver, ReduceDriver, MapDriver}
+
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: smishra
+ * Date: 1/19/12
+ * Time: 1:19 PM
+ * To change this template use File | Settings | File Templates.
+ */
+
+class GenomeIngestionMRTest extends HImplicits with GImplicits {
+  val logger: Logger = LoggerFactory.getLogger(classOf[GenomeIngestionMapper])
+
+  @Test
+  def map {
+    val mapper: Mapper[LongWritable, Text, Text, NTermWritable] = new GenomeIngestionMapper
+
+    val mapDriver = new MapDriver[LongWritable, Text, Text, NTermWritable]
+    mapDriver.getConfiguration.set(GenomeIngestionMapper.WINDOW_SIZE, 3 + "")
+    mapDriver.setMapper(mapper)
+
+    val flName = "somefile"
+    mapDriver.withInput(1, "AAbATnG\nCCA")
+
+    //    val tw = new NTermWritable("AAA").
+    //         add(new NTerm("AAA", 1,flName,0)).
+    //         add(new NTerm("AAT",1, flName, 1)).
+    //         add(new NTerm("ATG",1, flName,2)).
+    //         add(new NTerm("TGC",1, flName,3)).
+    //         add(new NTerm("GCC",1, flName,4)).
+    //         add(new NTerm("CCA",1, flName,5))
+
+    //    val twAAA = new NTermWritable("AAA").add(new NTerm("AAA", 1,flName,0))
+    //
+    //
+    //    mapDriver.withOutput("AAA", twAAA)
+    //
+    mapDriver.withOutput("AAA", new NTerm("AAA", 1, flName, 0)).
+      withOutput("AAT", new NTerm("AAT", 1, flName, 1)).
+      withOutput("ATG", new NTerm("ATG", 1, flName, 2)).
+      withOutput("TGC", new NTerm("TGC", 1, flName, 3)).
+      withOutput("GCC", new NTerm("GCC", 1, flName, 4)).
+      withOutput("CCA", new NTerm("CCA", 1, flName, 5))
+
+    logger.info("map result: " + mapDriver.run())
+  }
+
+  @Test
+  def reduce {
+    val reducer: Reducer[Text, NTermWritable, Text, NLink] = new GenomeIngestionReducer
+
+    val reduceDriver = new ReduceDriver[Text, NTermWritable, Text, NLink]
+    reduceDriver.setReducer(reducer)
+
+    reduceDriver.withInput("aaa", List[NTermWritable](new NTerm("aaa", 1, "ch1", 0),
+      new NTerm("aaa", 1, "ch1", 2044),
+      new NTerm("aaa", 1, "ch2", 3044)))
+
+    val s = "AAA:3:[ch1->0,2044;ch2->3044"
+
+    val result = reduceDriver.run().head.getSecond
+    logger.debug("reduce result: " + result)
+
+    Assert.assertEquals(s, result.toString)
+  }
+
+  @Test
+  def mapReduce {
+    val mapper: Mapper[LongWritable, Text, Text, NTermWritable] = new GenomeIngestionMapper
+    val reducer: Reducer[Text, NTermWritable, Text, NLink] = new GenomeIngestionReducer
+
+    val mrDriver = new MapReduceDriver[LongWritable, Text, Text, NTermWritable, Text, NLink]
+    mrDriver.getConfiguration.set(GenomeIngestionMapper.WINDOW_SIZE, 3 + "")
+
+    mrDriver.setMapper(mapper)
+    mrDriver.setReducer(reducer)
+
+    //mrDriver.withInput(1, "AAATG\nCCAAA")
+    mrDriver.withInput(1, "AABAAHTCAAaN")
+
+    mrDriver.run().foreach(p => logger.debug(p.getSecond.toString))
+  }
+
+  //  @Test
+  //  def map2 {
+  //    val mapper: Mapper[LongWritable, Text, Text, Node] = new GenomeIngestionMapper2
+  //
+  //    val mapDriver = new MapDriver[LongWritable, Text, Text, Node]
+  //    mapDriver.getConfiguration.set(GenomeIngestionMapper.WINDOW_SIZE, 3 + "")
+  //    mapDriver.setMapper(mapper)
+  //
+  //    val flName = "somefile"
+  //    mapDriver.withInput(1, "AAbAATnG\nCCA")
+  //
+  //    mapDriver.withOutput("AAA", new Node("AAA", flName, 0)).
+  //      withOutput("AAA", new Node("AAA", flName, 1)).
+  //      withOutput("AAT", new Node("AAA", flName, 2)).
+  //      withOutput("ATG", new Node("ATG", flName, 3)).
+  //      withOutput("TGC", new Node("TGC", flName, 4)).
+  //      withOutput("GCC", new Node("GCC", flName, 5)).
+  //      withOutput("CCA", new Node("CCA", flName, 6))
+  //
+  //    logger.info("map result: " + mapDriver.run())
+  //  }
+  //
+  //  @Test
+  //  def reduce2 {
+  //    val reducer: Reducer[Text, Node, Text, Node] = new GenomeIngestionReducer2
+  //
+  //    val reduceDriver = new ReduceDriver[Text, Node, Text, Node]
+  //    reduceDriver.setReducer(reducer)
+  //
+  //    reduceDriver.withInput("aaa", List[Node](new Node("aaa", "ch1", 0),
+  //      new Node("aaa", "ch1", 2044),
+  //      new Node("aaa", "ch1", 3044)))
+  //
+  //    val s = "AAA:3:[ch1->0,2044;ch2->3044"
+  //
+  //    val result = reduceDriver.run().head.getSecond
+  //    Assert.assertEquals(3, result.getFreq)
+  //
+  //    val itr = result.iterator
+  //
+  //    Assert.assertEquals(0, itr.next.offset)
+  //
+  //    Assert.assertEquals(2044, itr.next.offset)
+  //
+  //    Assert.assertEquals(3044, itr.next.offset)
+  //  }
+  //
+  //  @Test
+  //  def mapReduce2 {
+  //    val mapper: Mapper[LongWritable, Text, Text, Node] = new GenomeIngestionMapper2
+  //    val reducer: Reducer[Text, Node, Text, Node] = new GenomeIngestionReducer2
+  //
+  //    val mrDriver = new MapReduceDriver[LongWritable, Text, Text, Node, Text, Node]
+  //    mrDriver.getConfiguration.set(GenomeIngestionMapper.WINDOW_SIZE, 3 + "")
+  //
+  //    mrDriver.setMapper(mapper)
+  //    mrDriver.setReducer(reducer)
+  //
+  //    //mrDriver.withInput(1, "AAATG\nCCAAA")
+  //    mrDriver.withInput(1, "AABAAHTCAAaNtc")
+  //
+  //    mrDriver.run().foreach(p =>
+  //    {
+  //      logger.debug(p.getSecond.toString)
+  //        val node = p.getSecond
+  //        node.name.toUpperCase match {
+  //        case "AAA" => Assert.assertEquals(3, node.getFreq)
+  //        case "ATC" => Assert.assertEquals(2, node.getFreq)
+  //        case "AAT" => Assert.assertEquals(2, node.getFreq)
+  //        case _ => Assert.assertEquals(1, node.getFreq)
+  //      }
+  //    })
+  //  }
+
+
+  @Test
+  def map2 {
+    val mapper: Mapper[LongWritable, Text, Text, Node] = new GenomeIngestionMapper2
+
+    val mapDriver = new MapDriver[LongWritable, Text, Text, Node]
+    mapDriver.getConfiguration.set(GenomeIngestionMapper.WINDOW_SIZE, 3 + "")
+    mapDriver.setMapper(mapper)
+
+    val flName = "somefile"
+    mapDriver.withInput(1, "AAbAATnG\nCCA")
+
+    mapDriver.withOutput("AAA", new Node("AAA", flName).addOffset(0)).
+      withOutput("AAA", new Node("AAA", flName).addOffset(1)).
+      withOutput("AAT", new Node("AAA", flName).addOffset(2)).
+      withOutput("ATG", new Node("ATG", flName).addOffset(3)).
+      withOutput("TGC", new Node("TGC", flName).addOffset(4)).
+      withOutput("GCC", new Node("GCC", flName).addOffset(5)).
+      withOutput("CCA", new Node("CCA", flName).addOffset(6))
+
+    logger.info("map result: " + mapDriver.run())
+  }
+
+  @Test
+  def reduce2 {
+    val reducer: Reducer[Text, Node, Text, Node] = new GenomeIngestionReducer2
+
+    val reduceDriver = new ReduceDriver[Text, Node, Text, Node]
+    reduceDriver.setReducer(reducer)
+
+    reduceDriver.withInput("aaa", List[Node](new Node("aaa", "ch1").addOffset(0),
+      new Node("aaa", "ch1").addOffset(2044),
+      new Node("aaa", "ch1").addOffset(3044)))
+
+    val result = reduceDriver.run().head.getSecond
+    Assert.assertEquals(3, result.getFreq)
+
+    val itr = result.offsets.sorted.iterator
+
+    Assert.assertEquals(0, itr.next)
+
+    Assert.assertEquals(2044, itr.next)
+
+    Assert.assertEquals(3044, itr.next)
+  }
+
+  @Test
+  def mapReduce2 {
+    val mapper: Mapper[LongWritable, Text, Text, Node] = new GenomeIngestionMapper2
+    val reducer: Reducer[Text, Node, Text, Node] = new GenomeIngestionReducer2
+
+    val mrDriver = new MapReduceDriver[LongWritable, Text, Text, Node, Text, Node]
+    mrDriver.getConfiguration.set(GenomeIngestionMapper.WINDOW_SIZE, 3 + "")
+
+    mrDriver.setMapper(mapper)
+    mrDriver.setReducer(reducer)
+
+    //mrDriver.withInput(1, "AAATG\nCCAAA")
+    mrDriver.withInput(1, "AABAAHTCAAaNtc")
+
+    mrDriver.run().foreach(p => {
+      logger.debug(p.getSecond.toString)
+      val node = p.getSecond
+      node.name.toUpperCase match {
+        case "AAA" =>
+          Assert.assertEquals(3, node.getFreq)
+          Assert.assertEquals(List(0, 1, 6), node.offsets)
+        case "AAT" =>
+          Assert.assertEquals(2, node.getFreq)
+          Assert.assertEquals(List(2, 7), node.offsets)
+        case "ATC" =>
+          Assert.assertEquals(2, node.getFreq)
+          Assert.assertEquals(List(3, 8), node.offsets)
+        case _ => Assert.assertEquals(1, node.getFreq)
+      }
+    })
+  }
+
+}
+
