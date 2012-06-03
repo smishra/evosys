@@ -65,10 +65,10 @@ class SampleTest {
     System.out.println("filtered: " + filtered)
   }
 
-  //@Test
+  @Test
   def forTest {
     val list:List[Int] = List(1)
 
-    for (i <- 1 to list.size) System.out.println(list(i))
+    for (i <- 0 until list.size) System.out.println(list(i))
   }
 }

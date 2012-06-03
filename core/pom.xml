@@ -127,7 +127,10 @@
                     </descriptors>
                     <archive>
                         <manifest>
-                            <mainClass>us.evosys.hadoop.jobs.GenomeIngestor</mainClass>
+                            <!--
+                            <mainClass>us.evosys.hadoop.jobs.ver3.GenomeIngestor</mainClass>
+                            -->
+                            <mainClass>us.evosys.hadoop.jobs.ChrFileCleaner</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
