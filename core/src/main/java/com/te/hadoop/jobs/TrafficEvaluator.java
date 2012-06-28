@@ -2,11 +2,14 @@ package com.te.hadoop.jobs;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableUtils;
 import org.apache.hadoop.mapreduce.*;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.slf4j.Logger;
@@ -17,8 +20,10 @@ import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Vector;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /**
@@ -32,7 +37,7 @@ public class TrafficEvaluator extends Configured implements Tool {
     private static final Logger logger = LoggerFactory.getLogger(TrafficEvaluator.class);
 
     @java.lang.Override
-    public int run(java.lang.String[] strings) throws Exception {
+    public int run(java.lang.String[] args) throws Exception {
         Configuration conf =this.getConf();
         conf.setQuietMode(false);
 
@@ -43,23 +48,41 @@ public class TrafficEvaluator extends Configured implements Tool {
         job.setMapperClass(TrafficEvaluatorMapper.class);
 
         job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(LongWritable.class);
+        job.setMapOutputValueClass(TrafficWindow.class);
         job.setReducerClass(TrafficEvaluatorReducer.class);
+
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(TrafficWindow.class);
+
+        for (int i= 0; i<args.length - 1; ++i) {
+            System.err.println(String.format("processing %d: %s", i, args[i]));
+            FileInputFormat.addInputPath(job, new Path(args[i]));
+        }
+
+        FileOutputFormat.setOutputPath(job, new Path(args[args.length-1]));
+
+        job.waitForCompletion(true);
 
         return 0;
     }
 
     public static void main(String[] args) throws Exception {
         int res = ToolRunner.run(new Configuration(), new TrafficEvaluator(), args);
+        System.err.println("The args are: " + Arrays.asList(args));
         System.exit(res);
+//        String dt = "2011-04-05 19:00:00.000";
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+//        System.out.println("date: " + simpleDateFormat.parse(dt));
+
     }
 }
 
 class TrafficEvaluatorMapper extends Mapper<LongWritable, Text, Text, TrafficWindow> {
     private static final Logger logger = LoggerFactory.getLogger(TrafficEvaluatorMapper.class);
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
     @Override
-    protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper<LongWritable,Text, Text,TrafficWindow>.Context context) throws java.io.IOException, java.lang.InterruptedException { /* compiled code */
+    protected void map(LongWritable key, Text value, Mapper<LongWritable,Text, Text,TrafficWindow>.Context context) throws java.io.IOException, java.lang.InterruptedException { /* compiled code */
         String line = value.toString();
         String[] parts = line.split("\t");
         if (parts.length<3) {
@@ -68,8 +91,15 @@ class TrafficEvaluatorMapper extends Mapper<LongWritable, Text, Text, TrafficWin
         }
 
         String tmc = parts[0];
+        String st = parts[1];
 
-        context.write(new Text(tmc), new TrafficWindow(tmc, Long.parseLong(parts[1]), Integer.parseInt(parts[2])));
+        try {
+            TrafficWindow tw = new TrafficWindow(tmc, simpleDateFormat.parse(st).getTime(), Integer.parseInt(parts[2]));
+            System.err.println("Map -> writing out " + tw);
+            context.write(new Text(tmc), tw);
+        } catch (ParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 }
 
@@ -78,6 +108,8 @@ class TrafficEvaluatorReducer extends Reducer<Text, TrafficWindow, Text, Traffic
 
     protected void reduce(Text key, java.lang.Iterable<TrafficWindow> values,
                           org.apache.hadoop.mapreduce.Reducer<Text,TrafficWindow,Text,TrafficWindow>.Context context) throws java.io.IOException, java.lang.InterruptedException {
+        System.err.println("Processing tmc: " + key);
+
         Iterator<TrafficWindow> itr = values.iterator();
         long start = -1;
         long end = -1;
@@ -86,6 +118,7 @@ class TrafficEvaluatorReducer extends Reducer<Text, TrafficWindow, Text, Traffic
 
         while (itr.hasNext()) {
             TrafficWindow tw = itr.next();
+            System.err.println("next entry " + tw);
 
             if (start==-1) {
                 total =0;
@@ -98,7 +131,8 @@ class TrafficEvaluatorReducer extends Reducer<Text, TrafficWindow, Text, Traffic
             ++count;
             if (tw.getEndTime()>=end) {
                 TrafficWindow redTW = new TrafficWindow(tw.getTmc(), start, tw.getEndTime(), total/(count-1));
-                context.write(new Text(tw.getTmc()), redTW);
+                System.err.println("Reduce -> writing out: " + redTW);
+                context.write(new Text(tw.getTmc()+":"+tw.getEndTime()), redTW);
                 start = -1;
             }
         }
@@ -121,6 +155,7 @@ class TrafficWindow implements Writable {
     }
 
     public TrafficWindow(String tmc, long startTime, long endTime, int avgSpeed) {
+        this.tmc = tmc;
         this.startTime = startTime;
         this.avgSpeed = avgSpeed;
         this.endTime = endTime;
@@ -150,12 +185,10 @@ class TrafficWindow implements Writable {
         this.endTime = endTime;
     }
 
-
-
     public boolean equals(Object o) {
         if (o instanceof TrafficWindow) {
             TrafficWindow that = (TrafficWindow)o;
-            if (this.avgSpeed==that.avgSpeed && this.startTime==that.startTime && this.endTime==that.endTime) {
+            if (this.tmc.equals(that.tmc) && this.avgSpeed==that.avgSpeed && this.startTime==that.startTime && this.endTime==that.endTime) {
                 return true;
             }
         }
@@ -184,5 +217,10 @@ class TrafficWindow implements Writable {
 
     public void setTmc(String tmc) {
         this.tmc = tmc;
+    }
+
+    @Override
+    public String toString() {
+        return this.tmc+":"+this.startTime+":"+this.endTime+":"+this.avgSpeed;
     }
 }
